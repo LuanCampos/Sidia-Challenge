@@ -7,13 +7,6 @@ public class BoardSpawner : MonoBehaviour
     public Vector3 centralPos;
     public int baseSize = 8;
     public float spacing = 1.1f;
-	
-	private List<GameObject> tiles = new List<GameObject>();
-	
-	void Start()
-    {
-        tiles = SpawnBoard();
-    }
 
     public List<GameObject> SpawnBoard()
     {
