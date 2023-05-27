@@ -35,7 +35,7 @@ public class BoardSpawner : MonoBehaviour
 
     private void OnValidate()
     {
-        if (baseSize < 1)
-            baseSize = 2;
+        if (baseSize < 8)
+            baseSize = 8;
     }
 }

@@ -12,7 +12,7 @@ public class BoardManager : MonoBehaviour
 
     void Update()
     {
-        TestTilesByClicking();
+        // TestTilesByClicking();
     }
 
     public int GetBoardSize()
@@ -47,33 +47,33 @@ public class BoardManager : MonoBehaviour
     {
         tile.GetComponent<MeshRenderer>().material.color = Color.red;
 
-        List<GameObject> perps = GetPerpendiculars(tile);
-        foreach (GameObject perp in perps)
-            perp.GetComponent<MeshRenderer>().material.color = Color.blue;
+        List<GameObject> adjs = GetAdjacents(tile);
+        foreach (GameObject adj in adjs)
+            adj.GetComponent<MeshRenderer>().material.color = Color.blue;
 
         List<GameObject> diags = GetDiagonals(tile);
         foreach (GameObject diag in diags)
             diag.GetComponent<MeshRenderer>().material.color = Color.green;
     }
 
-    private List<GameObject> GetPerpendiculars(GameObject tile)
+    private List<GameObject> GetAdjacents(GameObject tile)
     {
         int index = tiles.IndexOf(tile);
         int x = index % GetComponent<BoardSpawner>().baseSize;
         int y = index / GetComponent<BoardSpawner>().baseSize;
 
-        List<GameObject> perps = new List<GameObject>();
+        List<GameObject> adjs = new List<GameObject>();
 
         if (x > 0)
-            perps.Add(tiles[index - 1]);
+            adjs.Add(tiles[index - 1]);
         if (x < GetComponent<BoardSpawner>().baseSize - 1)
-            perps.Add(tiles[index + 1]);
+            adjs.Add(tiles[index + 1]);
         if (y > 0)
-            perps.Add(tiles[index - GetComponent<BoardSpawner>().baseSize]);
+            adjs.Add(tiles[index - GetComponent<BoardSpawner>().baseSize]);
         if (y < GetComponent<BoardSpawner>().baseSize - 1)
-            perps.Add(tiles[index + GetComponent<BoardSpawner>().baseSize]);
+            adjs.Add(tiles[index + GetComponent<BoardSpawner>().baseSize]);
 
-        return perps;
+        return adjs;
     }
 
     private List<GameObject> GetDiagonals(GameObject tile)
