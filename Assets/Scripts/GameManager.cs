@@ -234,25 +234,51 @@ public class GameManager : MonoBehaviour
 
     private void AttackPlayerAt(GameObject tile)
     {
-        int currentPlayerRoll = Random.Range(1, 7);
-        int otherPlayerRoll = Random.Range(1, 7);
-
         Debug.Log("===== Starting battle =====");
-        Debug.Log("Player " + (currentPlayer + 1) + " rolled " + currentPlayerRoll);
-        Debug.Log("Player " + (playersIndex.IndexOf(boardManager.GetIndexOfTile(tile)) + 1) + " rolled " + otherPlayerRoll);
+        
+        List<int> currentPlayerRolls = new List<int>();
+        List<int> otherPlayerRolls = new List<int>();
 
-        if (currentPlayerRoll > otherPlayerRoll)
+        for (int i = 0; i < 3; i++)
+        {
+            currentPlayerRolls.Add(Random.Range(1, 7));
+            otherPlayerRolls.Add(Random.Range(1, 7));
+        }
+
+        currentPlayerRolls.Sort();
+        currentPlayerRolls.Reverse();
+        otherPlayerRolls.Sort();
+        otherPlayerRolls.Reverse();
+
+        int currentPlayerWins = 0;
+        int otherPlayerWins = 0;
+
+        for (int i = 0; i < 3; i++)
+        {
+            if (currentPlayerRolls[i] >= otherPlayerRolls[i])
+            {
+                Debug.Log(currentPlayerRolls[i] + " against " + otherPlayerRolls[i] + " - Player " + (currentPlayer + 1) + " wins");
+                currentPlayerWins++;
+            }
+            else
+            {
+                Debug.Log(currentPlayerRolls[i] + " against " + otherPlayerRolls[i] + " - Player " + (playersIndex.IndexOf(boardManager.GetIndexOfTile(tile)) + 1) + " wins");
+                otherPlayerWins++;
+            }
+        }
+
+        if (currentPlayerWins > otherPlayerWins)
         {
             PlaySound("Attack");
             int damage = players[playersIndex.IndexOf(boardManager.GetIndexOfTile(tile))].GetComponent<Player>().GetAttackPoints();
-            Debug.Log("Player " + (currentPlayer + 1) + " winned battle and attacked Player " + (playersIndex.IndexOf(boardManager.GetIndexOfTile(tile)) + 1) + " for " + damage + " damage");
+            Debug.Log("Player " + (currentPlayer + 1) + " winned battle " + currentPlayerWins + "-" + otherPlayerWins + " and attacked Player " + (playersIndex.IndexOf(boardManager.GetIndexOfTile(tile)) + 1) + " for " + damage + " damage");
             PlayerGetAttacked(players[currentPlayer], damage);
         }
         else
         {
             PlaySound("CounterAttack");
             int damage = players[currentPlayer].GetComponent<Player>().GetAttackPoints();
-            Debug.Log("Player " + (playersIndex.IndexOf(boardManager.GetIndexOfTile(tile)) + 1) + " winned battle and counter attacked Player " + (currentPlayer + 1) + " for " + damage + " damage");
+            Debug.Log("Player " + (playersIndex.IndexOf(boardManager.GetIndexOfTile(tile)) + 1) + " winned battle " + otherPlayerWins + "-" + currentPlayerWins + " and counter-attacked Player " + (currentPlayer + 1) + " for " + damage + " damage");
             PlayerGetAttacked(players[playersIndex.IndexOf(boardManager.GetIndexOfTile(tile))], damage);
         }
 

@@ -113,3 +113,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthPoints: 10
   attackPoints: 1
+  deathParticlePrefab: {fileID: 1108058474890955732, guid: 2ad46da727e627d4cb0849b9e18a2745, type: 3}
+  particleLifetime: 0.5
