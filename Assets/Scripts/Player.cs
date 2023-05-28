@@ -47,6 +47,6 @@ public class Player : MonoBehaviour
 
     private void Die()
     {
-        // TODO: Implement death behavior
+        gameManager.PlayerDied(gameObject);
     }
 }

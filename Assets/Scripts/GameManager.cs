@@ -217,19 +217,23 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void PlayerDied(GameObject player)
+    {
+        int index = players.IndexOf(player);
+        Destroy(players[index]);
+
+        players.RemoveAt(index);
+        playersIndex.RemoveAt(index);
+
+        if (index < currentPlayer)
+            currentPlayer--;
+    }
+
     private void AttackPlayerAt(GameObject tile)
     {
-        int index = boardManager.GetIndexOfTile(tile);
-        int playerIndex = playersIndex.IndexOf(index);
-
-        Destroy(players[playerIndex]);
-
-        players.RemoveAt(playerIndex);
-        playersIndex.RemoveAt(playerIndex);
-
-        if (playerIndex < currentPlayer)
-            currentPlayer--;
-
+        int playerIndex = playersIndex.IndexOf(boardManager.GetIndexOfTile(tile));
+        players[playerIndex].GetComponent<Player>().TakeDamage(players[currentPlayer].GetComponent<Player>().GetAttackPoints());
+        currentPlayerMoves = 0;
         PlayerMadeMove();
     }
 
