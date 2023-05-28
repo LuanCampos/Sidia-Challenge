@@ -35,20 +35,25 @@ public class BoardManager : MonoBehaviour
     public List<GameObject> GetAdjacents(GameObject tile)
     {
         int index = tiles.IndexOf(tile);
-        int x = index % boardSpawner.baseSize;
-        int y = index / boardSpawner.baseSize;
+        int x = index % boardSpawner.GetBaseSize();
+        int y = index / boardSpawner.GetBaseSize();
 
         List<GameObject> adjs = new List<GameObject>();
 
         if (x > 0)
             adjs.Add(tiles[index - 1]);
-        if (x < boardSpawner.baseSize - 1)
+        if (x < boardSpawner.GetBaseSize() - 1)
             adjs.Add(tiles[index + 1]);
         if (y > 0)
-            adjs.Add(tiles[index - boardSpawner.baseSize]);
-        if (y < boardSpawner.baseSize - 1)
-            adjs.Add(tiles[index + boardSpawner.baseSize]);
+            adjs.Add(tiles[index - boardSpawner.GetBaseSize()]);
+        if (y < boardSpawner.GetBaseSize() - 1)
+            adjs.Add(tiles[index + boardSpawner.GetBaseSize()]);
 
         return adjs;
+    }
+
+    public void SpawnCollectables(List<int> playerIndexes)
+    {
+        boardSpawner.SpawnCollectables(tiles, playerIndexes);
     }
 }

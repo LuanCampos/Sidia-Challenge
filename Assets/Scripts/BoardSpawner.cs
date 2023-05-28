@@ -3,10 +3,18 @@ using System.Collections.Generic;
 
 public class BoardSpawner : MonoBehaviour
 {
-    public GameObject tilePrefab;
-    public Vector3 centralPos;
-    public int baseSize = 8;
-    public float spacing = 1.1f;
+    [SerializeField] private GameObject tilePrefab;
+    [SerializeField] private Vector3 centralPos;
+    [SerializeField] private int baseSize = 8;
+    [SerializeField] private float spacing = 1.1f;
+
+    [SerializeField] private List<GameObject> collectablePrefabs = new List<GameObject>();
+    [SerializeField] [Range(0, 1)] private float collectableSpawnChance = 0.5f;
+
+    public int GetBaseSize()
+    {
+        return baseSize;
+    }
 
     public List<GameObject> SpawnBoard()
     {
@@ -24,6 +32,26 @@ public class BoardSpawner : MonoBehaviour
         }
 
         return tiles;
+    }
+
+    public void SpawnCollectables(List<GameObject> tiles, List<int> playerIndexes)
+    {
+        if (collectablePrefabs.Count == 0)
+            return;
+
+        for (int i = 0; i < tiles.Count; i++)
+        {
+            if (playerIndexes.Contains(i))
+                continue;
+
+            if (Random.Range(0f, 1f) < collectableSpawnChance)
+            {
+                Vector3 position = tiles[i].transform.position;
+                position.y += 0.5f;
+                GameObject collectable = Instantiate(collectablePrefabs[Random.Range(0, collectablePrefabs.Count)], position, Quaternion.identity);
+                collectable.transform.SetParent(tiles[i].transform);
+            }
+        }
     }
 
     private void OnDrawGizmos()

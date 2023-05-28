@@ -157,6 +157,9 @@ MonoBehaviour:
   centralPos: {x: 0, y: 0, z: 0}
   baseSize: 16
   spacing: 1.1
+  collectablePrefabs:
+  - {fileID: 4837805489891342186, guid: b186c04f9c82c8542bcd67e2d0424e1a, type: 3}
+  collectableSpawnChance: 0.5
 --- !u!4 &96075521
 Transform:
   m_ObjectHideFlags: 0

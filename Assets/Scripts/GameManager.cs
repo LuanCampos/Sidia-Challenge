@@ -3,41 +3,34 @@ using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour
 {
-    public GameObject playerPrefab;
+    [SerializeField] private GameObject playerPrefab;
 
     private int boardSize;
     private int currentPlayer = 0;
     private int currentPlayerMoves = 3;
     private BoardManager boardManager;
 
-    public List<int> playersIndex = new List<int>();
-    public List<GameObject> players = new List<GameObject>();    
+    private List<int> playersIndex = new List<int>();
+    private List<GameObject> players = new List<GameObject>();    
     private List<GameObject> canMoveTo = new List<GameObject>();
     private List<GameObject> canAtackAt = new List<GameObject>();
 
     void Start()
     {
-        boardManager = GameObject.Find("Board").GetComponent<BoardManager>();
-        boardSize = boardManager.GetBoardSize();
+        GetBoard();
         SpawnPlayers();
+        SpawnCollectables();
     }
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit[] hits = Physics.RaycastAll(ray);
+        HandleInput();
+    }
 
-            foreach (RaycastHit hit in hits)
-            {
-                if (canMoveTo.Contains(hit.collider.gameObject))
-                    MovePlayerTo(hit.collider.gameObject);
-
-                else if (canAtackAt.Contains(hit.collider.gameObject))
-                    AtackPlayerAt(hit.collider.gameObject);
-            }
-        }
+    private void GetBoard()
+    {
+        boardManager = FindObjectOfType<BoardManager>();
+        boardSize = boardManager.GetBoardSize();
     }
 
     private void SpawnPlayers()
@@ -126,9 +119,6 @@ public class GameManager : MonoBehaviour
     {
         currentPlayerMoves--;
 
-        Debug.Log("Player " + currentPlayer + " made a move");
-        Debug.Log("Player " + currentPlayer + " has " + currentPlayerMoves + " moves left");
-
         if (currentPlayerMoves <= 0)
             NextPlayer();
 
@@ -145,11 +135,45 @@ public class GameManager : MonoBehaviour
         currentPlayerMoves = 3;
     }
 
+    private void SpawnCollectables()
+    {
+        boardManager.SpawnCollectables(playersIndex);
+    }
+
+    private void HandleInput()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit[] hits = Physics.RaycastAll(ray);
+
+            foreach (RaycastHit hit in hits)
+            {
+                if (canMoveTo.Contains(hit.collider.gameObject))
+                    MovePlayerTo(hit.collider.gameObject);
+
+                else if (canAtackAt.Contains(hit.collider.gameObject))
+                    AtackPlayerAt(hit.collider.gameObject);
+            }
+        }
+    }
+
     private void MovePlayerTo(GameObject tile)
     {
         players[currentPlayer].transform.position = tile.transform.position;
         playersIndex[currentPlayer] = boardManager.GetIndexOfTile(tile);
+        LookForCollectable(tile);
         PlayerMadeMove();
+    }
+
+    private void LookForCollectable(GameObject tile)
+    {
+        if (tile.transform.childCount > 0)
+        {
+            GameObject collectable = tile.transform.GetChild(0).gameObject;
+            // collectable.GetComponent<Collectable>().CollectedBy(players[currentPlayer]);
+            Destroy(collectable);
+        }
     }
 
     private void AtackPlayerAt(GameObject tile)
