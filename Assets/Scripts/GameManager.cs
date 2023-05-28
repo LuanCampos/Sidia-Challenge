@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     private int boardSize;
     private int currentPlayer = 0;
     private int currentPlayerMoves = 3;
+    private bool gameOver = false;
     private BoardManager boardManager;
     private SoundManager soundManager;
 
@@ -181,6 +182,9 @@ public class GameManager : MonoBehaviour
 
     private void HandleInput()
     {
+        if (gameOver)
+            return;
+
         if (Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -230,12 +234,15 @@ public class GameManager : MonoBehaviour
 
         if (index < currentPlayer)
             currentPlayer--;
+
+        GetComponent<PauseManager>().ShowPanel("" + (currentPlayer + 1));
+        gameOver = true;
     }
 
     private void AttackPlayerAt(GameObject tile)
     {
         Debug.Log("===== Starting battle =====");
-        
+
         List<int> currentPlayerRolls = new List<int>();
         List<int> otherPlayerRolls = new List<int>();
 
