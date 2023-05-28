@@ -18,6 +18,7 @@ public class Player : MonoBehaviour
     public void AddMoves(int moves)
     {
         gameManager.AddMovesToCurrentPlayer(moves);
+        gameManager.PlaySound("GainMove");
     }
 
     public int GetAttackPoints()
@@ -33,11 +34,13 @@ public class Player : MonoBehaviour
     public void AddHealthPoints(int health)
     {
         healthPoints += health;
+        gameManager.PlaySound("GainHealth");
     }
 
     public void AddAttackPoints(int attack)
     {
         attackPoints += attack;
+        gameManager.PlaySound("GainAttack");
     }
 
     public void TakeDamage(int damage)
@@ -50,6 +53,7 @@ public class Player : MonoBehaviour
 
     private void Die()
     {
+        gameManager.PlaySound("PlayerDeath");
         gameManager.PlayerDied(gameObject);
     }
 }

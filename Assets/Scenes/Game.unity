@@ -544,6 +544,7 @@ GameObject:
   m_Component:
   - component: {fileID: 909314092}
   - component: {fileID: 909314093}
+  - component: {fileID: 909314094}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -579,6 +580,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 544676907030517968, guid: ea5e5499c2c290c439ae960bd25bc451, type: 3}
+--- !u!114 &909314094
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 909314091}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bef9c82377c590f4a9ed0681612ead95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioClips: []
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
