@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     private List<GameObject> canAttackAt = new List<GameObject>();
 
     private TMPro.TextMeshProUGUI logText;
+    private TMPro.TextMeshProUGUI movesText;
 
     void Start()
     {
@@ -55,6 +56,7 @@ public class GameManager : MonoBehaviour
         boardSize = boardManager.GetBoardSize();
         soundManager = FindObjectOfType<SoundManager>();
         logText = GameObject.Find("LogText").GetComponent<TextMeshProUGUI>();
+        movesText = GameObject.Find("MovesText").GetComponent<TextMeshProUGUI>();
     }
 
     private void SpawnPlayers()
@@ -311,5 +313,6 @@ public class GameManager : MonoBehaviour
             logText.text += "  Health points: " + player.GetHealthPoints() + "\n";
             logText.text += "  Attack points: " + player.GetAttackPoints() + "\n";
         }
+        movesText.text = "Moves " + currentPlayerMoves;
     }
 }
