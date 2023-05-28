@@ -231,8 +231,32 @@ public class GameManager : MonoBehaviour
 
     private void AttackPlayerAt(GameObject tile)
     {
-        int playerIndex = playersIndex.IndexOf(boardManager.GetIndexOfTile(tile));
-        players[playerIndex].GetComponent<Player>().TakeDamage(players[currentPlayer].GetComponent<Player>().GetAttackPoints());
+        int currentPlayerRoll = Random.Range(1, 7);
+        int otherPlayerRoll = Random.Range(1, 7);
+
+        Debug.Log("===== Starting battle =====");
+        Debug.Log("Player " + (currentPlayer + 1) + " rolled " + currentPlayerRoll);
+        Debug.Log("Player " + (playersIndex.IndexOf(boardManager.GetIndexOfTile(tile)) + 1) + " rolled " + otherPlayerRoll);
+
+        if (currentPlayerRoll > otherPlayerRoll)
+        {
+            int damage = players[playersIndex.IndexOf(boardManager.GetIndexOfTile(tile))].GetComponent<Player>().GetAttackPoints();
+            Debug.Log("Player " + (currentPlayer + 1) + " winned battle and attacked Player " + (playersIndex.IndexOf(boardManager.GetIndexOfTile(tile)) + 1) + " for " + damage + " damage");
+            PlayerGetAttacked(players[currentPlayer], damage);
+        }
+        else
+        {
+            int damage = players[currentPlayer].GetComponent<Player>().GetAttackPoints();
+            Debug.Log("Player " + (playersIndex.IndexOf(boardManager.GetIndexOfTile(tile)) + 1) + " winned battle and counter attacked Player " + (currentPlayer + 1) + " for " + damage + " damage");
+            PlayerGetAttacked(players[playersIndex.IndexOf(boardManager.GetIndexOfTile(tile))], damage);
+        }
+
+        Debug.Log("===== Ending battle =====");
+    }
+
+    private void PlayerGetAttacked(GameObject player, int damage)
+    {
+        player.GetComponent<Player>().TakeDamage(damage);
         currentPlayerMoves = 0;
         PlayerMadeMove();
     }

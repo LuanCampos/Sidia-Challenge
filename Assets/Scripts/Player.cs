@@ -2,7 +2,10 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    [Header("Player Settings")]
+    [Tooltip("The amount of health points the player has.")]
     [SerializeField] private int healthPoints = 10;
+    [Tooltip("The amount of attack points the player has.")]
     [SerializeField] private int attackPoints = 1;
 
     private GameManager gameManager;
