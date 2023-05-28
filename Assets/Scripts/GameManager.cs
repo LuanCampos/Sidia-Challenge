@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour
 {
+    [Tooltip("The prefab of the player")]
     [SerializeField] private GameObject playerPrefab;
 
     private int boardSize;
@@ -25,6 +26,11 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         HandleInput();
+    }
+
+    public void AddMovesToCurrentPlayer(int moves)
+    {
+        currentPlayerMoves += moves;
     }
 
     private void GetBoard()
@@ -96,7 +102,17 @@ public class GameManager : MonoBehaviour
     {
         canAtackAt.Clear();
 
+        List<GameObject> possibleAttack = new List<GameObject>();
+        
         foreach (GameObject tile in canMoveTo)
+            possibleAttack.Add(tile);
+
+        List<GameObject> diagonals = boardManager.GetDiagonalsByIndex(playersIndex[currentPlayer]);
+
+        foreach (GameObject tile in diagonals)
+            possibleAttack.Add(tile);
+
+        foreach (GameObject tile in possibleAttack)
         {
             foreach (int index in playersIndex)
             {
@@ -170,9 +186,13 @@ public class GameManager : MonoBehaviour
     {
         if (tile.transform.childCount > 0)
         {
-            GameObject collectable = tile.transform.GetChild(0).gameObject;
-            // collectable.GetComponent<Collectable>().CollectedBy(players[currentPlayer]);
-            Destroy(collectable);
+            GameObject collectableObj = tile.transform.GetChild(0).gameObject;
+            Collectable collectable = collectableObj.GetComponent<Collectable>();
+
+            if (collectable != null)
+                collectable.CollectedBy(players[currentPlayer].GetComponent<Player>());
+
+            Destroy(collectableObj);
         }
     }
 

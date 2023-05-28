@@ -132,8 +132,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 96075521}
-  - component: {fileID: 96075520}
   - component: {fileID: 96075522}
+  - component: {fileID: 96075520}
+  - component: {fileID: 96075523}
   m_Layer: 0
   m_Name: Board
   m_TagString: Untagged
@@ -157,9 +158,6 @@ MonoBehaviour:
   centralPos: {x: 0, y: 0, z: 0}
   baseSize: 16
   spacing: 1.1
-  collectablePrefabs:
-  - {fileID: 4837805489891342186, guid: b186c04f9c82c8542bcd67e2d0424e1a, type: 3}
-  collectableSpawnChance: 0.5
 --- !u!4 &96075521
 Transform:
   m_ObjectHideFlags: 0
@@ -187,6 +185,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 265bdb490ef532f48b914e02aeadd750, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &96075523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 96075519}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca7deec168b63064b95c752a82bd1ebe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  collectablePrefabs:
+  - {fileID: 4837805489891342186, guid: b186c04f9c82c8542bcd67e2d0424e1a, type: 3}
+  collectableSpawnChance: 0.2
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -403,7 +416,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 15, z: 0}
+  m_LocalPosition: {x: 0, y: 17, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

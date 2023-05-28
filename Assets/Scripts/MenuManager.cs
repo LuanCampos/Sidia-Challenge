@@ -4,10 +4,15 @@ using UnityEngine.SceneManagement;
 
 public class MenuManager : MonoBehaviour
 {
-    public GameObject menuPanel;
-    public GameObject gamePanel;
-    public GameObject optionsPanel;
-    public GameObject quitPanel;
+    [Header("Panels")]
+    [Tooltip("The panel that contains the main menu buttons.")]
+    [SerializeField] private GameObject menuPanel;
+    [Tooltip("The panel that contains the game settings.")]
+    [SerializeField] private GameObject gamePanel;
+    [Tooltip("The panel that contains the options settings.")]
+    [SerializeField] private GameObject optionsPanel;
+    [Tooltip("The panel that contains the quit confirmation.")]
+    [SerializeField] private GameObject quitPanel;
 
     private const float animationDuration = 0.5f;
     private const float animationDistance = 500f;
