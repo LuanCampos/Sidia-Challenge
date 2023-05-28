@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -16,11 +17,15 @@ public class GameManager : MonoBehaviour
     private List<GameObject> canMoveTo = new List<GameObject>();
     private List<GameObject> canAttackAt = new List<GameObject>();
 
+    private TMPro.TextMeshProUGUI logText;
+
     void Start()
     {
         GetBoard();
+        GetLogText();
         SpawnPlayers();
         SpawnCollectables();
+        LogPlayersInfo();
     }
 
     void Update()
@@ -33,10 +38,20 @@ public class GameManager : MonoBehaviour
         currentPlayerMoves += moves;
     }
 
+    public Vector3 GetPositionOfCurrentPlayer()
+    {
+        return players[currentPlayer].transform.position;
+    }
+
     private void GetBoard()
     {
         boardManager = FindObjectOfType<BoardManager>();
         boardSize = boardManager.GetBoardSize();
+    }
+
+    private void GetLogText()
+    {
+        logText = GameObject.Find("LogText").GetComponent<TextMeshProUGUI>();
     }
 
     private void SpawnPlayers()
@@ -144,6 +159,7 @@ public class GameManager : MonoBehaviour
             NextPlayer();
 
         UpdateMovePossibilities();
+        LogPlayersInfo();
     }
 
     private void NextPlayer()
@@ -215,5 +231,19 @@ public class GameManager : MonoBehaviour
             currentPlayer--;
 
         PlayerMadeMove();
+    }
+
+    private void LogPlayersInfo()
+    {
+        logText.text = "Players Info:\n";
+        for (int i = 0; i < players.Count; i++)
+        {
+            Player player = players[i].GetComponent<Player>();
+            logText.text += "\nPlayer " + (i + 1) + ":\n";
+            logText.text += "  Current player: " + (i == currentPlayer ? "Yes" : "No") + "\n";
+            logText.text += "  Remaining moves: " + (i == currentPlayer ? currentPlayerMoves : 0) + "\n";
+            logText.text += "  Health points: " + player.GetHealthPoints() + "\n";
+            logText.text += "  Attack points: " + player.GetAttackPoints() + "\n";
+        }
     }
 }
