@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
     private List<int> playersIndex = new List<int>();
     private List<GameObject> players = new List<GameObject>();    
     private List<GameObject> canMoveTo = new List<GameObject>();
-    private List<GameObject> canAtackAt = new List<GameObject>();
+    private List<GameObject> canAttackAt = new List<GameObject>();
 
     void Start()
     {
@@ -69,6 +69,11 @@ public class GameManager : MonoBehaviour
         GameObject player = Instantiate(playerPrefab, position, Quaternion.identity);
         players.Add(player);
         playersIndex.Add(index);
+        
+        if (players.Count == 1)
+            player.GetComponent<MeshRenderer>().material.color = Color.blue;
+        else
+            player.GetComponent<MeshRenderer>().material.color = Color.red;
     }
 
     private void UpdateMovePossibilities()
@@ -76,9 +81,9 @@ public class GameManager : MonoBehaviour
         RemovePreviousColors();
 
         UpdateCanMoveTo();
-        UpdateCanAtackAt();
+        UpdateCanAttackAt();
 
-        foreach (GameObject tile in canAtackAt)
+        foreach (GameObject tile in canAttackAt)
             canMoveTo.Remove(tile);
 
         AddCurrentColors();
@@ -89,7 +94,7 @@ public class GameManager : MonoBehaviour
         foreach (GameObject tile in canMoveTo)
             tile.GetComponent<MeshRenderer>().material.color = Color.white;
 
-        foreach (GameObject tile in canAtackAt)
+        foreach (GameObject tile in canAttackAt)
             tile.GetComponent<MeshRenderer>().material.color = Color.white;
     }
 
@@ -98,9 +103,9 @@ public class GameManager : MonoBehaviour
         canMoveTo = boardManager.GetAdjacentsByIndex(playersIndex[currentPlayer]);
     }
 
-    private void UpdateCanAtackAt()
+    private void UpdateCanAttackAt()
     {
-        canAtackAt.Clear();
+        canAttackAt.Clear();
 
         List<GameObject> possibleAttack = new List<GameObject>();
         
@@ -117,7 +122,7 @@ public class GameManager : MonoBehaviour
             foreach (int index in playersIndex)
             {
                 if (boardManager.GetIndexOfTile(tile) == index)
-                    canAtackAt.Add(tile);
+                    canAttackAt.Add(tile);
             }
         }
     }
@@ -127,7 +132,7 @@ public class GameManager : MonoBehaviour
         foreach (GameObject tile in canMoveTo)
             tile.GetComponent<MeshRenderer>().material.color = Color.green;
 
-        foreach (GameObject tile in canAtackAt)
+        foreach (GameObject tile in canAttackAt)
             tile.GetComponent<MeshRenderer>().material.color = Color.red;
     } 
 
@@ -168,8 +173,8 @@ public class GameManager : MonoBehaviour
                 if (canMoveTo.Contains(hit.collider.gameObject))
                     MovePlayerTo(hit.collider.gameObject);
 
-                else if (canAtackAt.Contains(hit.collider.gameObject))
-                    AtackPlayerAt(hit.collider.gameObject);
+                else if (canAttackAt.Contains(hit.collider.gameObject))
+                    AttackPlayerAt(hit.collider.gameObject);
             }
         }
     }
@@ -196,7 +201,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void AtackPlayerAt(GameObject tile)
+    private void AttackPlayerAt(GameObject tile)
     {
         int index = boardManager.GetIndexOfTile(tile);
         int playerIndex = playersIndex.IndexOf(index);

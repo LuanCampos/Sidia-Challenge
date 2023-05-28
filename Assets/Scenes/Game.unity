@@ -198,7 +198,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   collectablePrefabs:
+  - {fileID: 4837805489891342186, guid: f0fdbe0ba8ae41f489b46675afc82e95, type: 3}
   - {fileID: 4837805489891342186, guid: b186c04f9c82c8542bcd67e2d0424e1a, type: 3}
+  - {fileID: 4837805489891342186, guid: 5a0dd47946852f546b2b0a2c47898973, type: 3}
   collectableSpawnChance: 0.2
 --- !u!1 &705507993
 GameObject:
